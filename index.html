@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Pesquisa: Gamificação no Aprendizado</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="h-full text-slate-800 bg-slate-50 flex flex-col min-h-screen">
+
+    <!-- HEADER / CABEÇALHO -->
+    <header class="bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <span class="bg-indigo-500/30 p-2 rounded-lg text-white">
+                        <i class="fa-solid fa-gamepad text-2xl"></i>
+                    </span>
+                    <div>
+                        <h1 class="text-2xl font-extrabold tracking-tight">Dashboard de Pesquisa</h1>
+                        <p class="text-indigo-200 text-sm font-medium">Gamificação no Aprendizado • Maratona Tech</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                <i class="fa-solid fa-[#4F46E5] fa-users text-indigo-200"></i>
+                <span class="text-sm font-medium text-indigo-100">Total de Respostas Coletadas:</span>
+                <span id="total-responses-count" class="text-xl font-bold text-white bg-white/20 px-2.5 py-0.5 rounded-lg">61</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- INTRODUÇÃO E HIPÓTESE -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1: Tema -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full">Tema</span>
+                        <i class="fa-solid fa-graduation-cap text-slate-400"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Gamificação no Aprendizado</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Análise sobre o uso de elementos gamificados (jogos, XP, recompensas e ranking) no desenvolvimento acadêmico e no engajamento dos estudantes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Pergunta Central -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-accent-600 bg-cyan-50 px-3 py-1 rounded-full">Pergunta Central</span>
+                        <i class="fa-solid fa-circle-question text-slate-400"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mb-2 leading-snug">
+                        "A gamificação no aprendizado é mais eficaz do que o método tradicional?"
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Investigação sobre a percepção de absorção de conteúdo e capacidade de foco em relação ao formato de sala de aula convencional.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Hipótese Inicial -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Hipótese Inicial</span>
+                        <i class="fa-solid fa-lightbulb text-slate-400"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-slate-900 mb-2 leading-snug">
+                        Estudantes que usam gamificação aprendem e focam mais do que os que utilizam métodos tradicionais.
+                    </h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Pressuposto de que o incentivo contínuo e desafios gamificados impulsionam o rendimento e a retenção da atenção dos alunos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BARRA DE FILTROS INTERATIVOS -->
+        <section class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-100">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-filter text-brand-600"></i>
+                    <h2 class="text-lg font-bold text-slate-900">Filtros Dinâmicos dos Dados</h2>
+                </div>
+                <button id="reset-filters" class="text-xs text-slate-500 hover:text-brand-600 font-medium flex items-center space-x-1 transition-colors">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Limpar Filtros</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Filtro 1: Faixa Etária -->
+                <div>
+                    <label for="filter-age" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Faixa Etária</label>
+                    <select id="filter-age" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 p-3 transition">
+                        <option value="all">Todas as Faixas Etárias</option>
+                        <option value="Jovem (0 a 19 anos)">Jovem (0 a 19 anos)</option>
+                        <option value="Adulto (20 a 59 anos)">Adulto (20 a 59 anos)</option>
+                    </select>
+                </div>
+
+                <!-- Filtro 2: Situação Acadêmica -->
+                <div>
+                    <label for="filter-status" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Situação Profissional / Estudo</label>
+                    <select id="filter-status" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 p-3 transition">
+                        <option value="all">Todas as Situações</option>
+                        <option value="Somente estuda e não trabalha">Somente estuda</option>
+                        <option value="Trabalha e estuda">Trabalha e estuda</option>
+                    </select>
+                </div>
+
+                <!-- Filtro 3: Experiência -->
+                <div>
+                    <label for="filter-exp" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Nível de Experiência</label>
+                    <select id="filter-exp" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 p-3 transition">
+                        <option value="all">Todos os Níveis</option>
+                        <option value="Iniciante">Iniciante</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- GRÁFICOS PRINCIPAIS -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Gráfico 1: Rosca / Pizza -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-bold text-slate-900">Preferência de Método de Estudo</h3>
+                        <span class="text-xs bg-brand-50 text-brand-700 font-semibold px-2.5 py-1 rounded-full">Qualitativo</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-6">Comparativo da preferência declarada entre aprendizagem gamificada e tradicional.</p>
+                </div>
+                <div class="relative flex justify-center items-center h-64">
+                    <canvas id="chartPreferences"></canvas>
+                </div>
+                <div id="pref-stats" class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 text-center text-xs">
+                    <div>
+                        <span class="text-slate-400 block">Gamificado</span>
+                        <span id="pref-gamified-val" class="text-base font-bold text-brand-600">--</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Tradicional</span>
+                        <span id="pref-trad-val" class="text-base font-bold text-slate-700">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico 2: Barras -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-bold text-slate-900">Percepção de Ajuda nos Estudos (Escala 1-5)</h3>
+                        <span class="text-xs bg-cyan-50 text-cyan-700 font-semibold px-2.5 py-1 rounded-full">Escala Linear</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-6">Grau avaliado pelos estudantes sobre o quanto a gamificação contribui (1 = Pouco, 5 = Muito).</p>
+                </div>
+                <div class="relative h-64">
+                    <canvas id="chartHelpScale"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center text-xs px-2">
+                    <span class="text-slate-500">Média Geral do Filtro:</span>
+                    <span id="help-avg-val" class="text-base font-extrabold text-accent-600 bg-cyan-50 px-3 py-1 rounded-lg">3.41 / 5.0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETALHAMENTO DE FOCO & IMPACTO -->
+        <section class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100">
+            <h3 class="text-base font-bold text-slate-900 mb-4">Impacto no Foco e Concentração</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <span class="text-xs text-slate-500 font-medium block mb-1">Sim, consigo focar mais</span>
+                    <span id="foco-sim" class="text-2xl font-bold text-emerald-600">--</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <span class="text-xs text-slate-500 font-medium block mb-1">Talvez, nunca reparei</span>
+                    <span id="foco-talvez" class="text-2xl font-bold text-amber-500">--</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <span class="text-xs text-slate-500 font-medium block mb-1">Não, me atrapalha a focar</span>
+                    <span id="foco-nao" class="text-2xl font-bold text-rose-500">--</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANÁLISE DA IA & VERIFICAÇÃO DE HIPÓTESE -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Respostas e Análises da IA -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa-solid fa-robot text-brand-600 text-xl"></i>
+                        <h3 class="text-lg font-bold text-slate-900">Análise e Verificações da IA</h3>
+                    </div>
+
+                    <!-- Ponto Comprovação -->
+                    <div class="mb-4 p-4 rounded-xl bg-indigo-50/50 border border-indigo-100">
+                        <h4 class="text-sm font-bold text-brand-900 flex items-center space-x-2 mb-1">
+                            <i class="fa-solid fa-check-circle text-brand-600"></i>
+                            <span>O que comprova a hipótese</span>
+                        </h4>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            A maioria absoluta prefere o formato gamificado, quase metade relata ganho direto de foco e a nota média de eficácia ficou acima da metade da escala. Isso valida que elementos como XP, recompensas e desafios geram estímulo real e engajamento superior em comparação à monotonia do estudo puramente passivo.
+                        </p>
+                    </div>
+
+                    <!-- Ponto Contraponto -->
+                    <div class="mb-4 p-4 rounded-xl bg-amber-50/50 border border-amber-100">
+                        <h4 class="text-sm font-bold text-amber-900 flex items-center space-x-2 mb-1">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                            <span>O contraponto (Por que é parcial)</span>
+                        </h4>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            O alto índice de indecisão e a sólida preferência pelo modelo tradicional mostram que a gamificação não deve ser vista como uma "substituição milagrosa e única", mas sim como um poderoso complemento motivacional. Ela funciona incrivelmente bem para reter atenção e acelerar o interesse, desde que bem aplicada e combinada com bases sólidas de estudo.
+                        </p>
+                    </div>
+
+                    <!-- Opinião da IA -->
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Concordância & Parecer Técnico</h4>
+                        <p class="text-xs text-slate-700 italic">
+                            "Concordo com a leitura. A gamificação atua como uma poderosa ferramenta para engajamento e combate à desmotivação, mas deve ser integrada com metodologia pedagógica estruturada para melhores resultados."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusão Final e Veredito da Hipótese -->
+            <div class="bg-white rounded-2xl p-6 custom-shadow border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-square-poll-vertical text-emerald-600 text-xl"></i>
+                            <h3 class="text-lg font-bold text-slate-900">Conclusão Final da Pesquisa</h3>
+                        </div>
+                        <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+                            Hipótese Parcialmente Comprovada
+                        </span>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+                        <p>
+                            A pesquisa realizada com a amostra de estudantes comprovou de forma expressiva que métodos baseados em dinamismo e elementos gamificados possuem superioridade clara na preferência e na elevação da atenção contínua.
+                        </p>
+                        <p>
+                            No entanto, a validação é classificada como <strong>Parcialmente Comprovada</strong> devido à relevante parcela de alunos que rende melhor ou prefere métodos convencionais de exposição em sala de aula.
+                        </p>
+                    </div>
+
+                    <div class="mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                        <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider mb-2">Síntese do Resultado</h4>
+                        <p class="text-xs text-emerald-800 font-medium">
+                            Métodos gamificados baseados em recompensas e desafios são ferramentas altamente eficazes para combater a desmotivação escolar, servindo como um aliado aos métodos tradicionais.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 text-right">
+                    <span class="text-[10px] text-slate-400">Maratona Tech • 2ª Fase • Nível 3</span>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            Dashboard Interativo desenvolvido para a 2ª Fase da Maratona Tech • Everton Rafael
+        </div>
+    </footer>
+
+    <!-- CARREGAMENTO DOS DADOS EXTERNOS -->
+    <script src="dados.js"></script>
+
+    <!-- SCRIPT JS PARA LÓGICA E GRÁFICOS DINÂMICOS -->
+    <script>
+        // VARIÁVEIS DOS GRÁFICOS (CHART.JS)
+        let chartPrefInstance = null;
+        let chartHelpInstance = null;
+
+        // ELEMENTOS DO DOM
+        const filterAge = document.getElementById('filter-age');
+        const filterStatus = document.getElementById('filter-status');
+        const filterExp = document.getElementById('filter-exp');
+        const btnReset = document.getElementById('reset-filters');
+        const totalCountEl = document.getElementById('total-responses-count');
+
+        // INICIALIZAÇÃO AO CARREGAR A PÁGINA
+        window.addEventListener('DOMContentLoaded', () => {
+            initDashboard();
+
+            filterAge.addEventListener('change', updateDashboard);
+            filterStatus.addEventListener('change', updateDashboard);
+            filterExp.addEventListener('change', updateDashboard);
+
+            btnReset.addEventListener('click', () => {
+                filterAge.value = 'all';
+                filterStatus.value = 'all';
+                filterExp.value = 'all';
+                updateDashboard();
+            });
+        });
+
+        function getFilteredData() {
+            const ageVal = filterAge.value;
+            const statusVal = filterStatus.value;
+            const expVal = filterExp.value;
+
+            // rawData vem diretamente do arquivo dados.js
+            if (typeof rawData === 'undefined') {
+                console.error("Erro: O arquivo dados.js não foi carregado corretamente.");
+                return [];
+            }
+
+            return rawData.filter(item => {
+                const matchAge = (ageVal === 'all' || item.age === ageVal);
+                const matchStatus = (statusVal === 'all' || item.status === statusVal);
+                const matchExp = (expVal === 'all' || item.exp.includes(expVal));
+                return matchAge && matchStatus && matchExp;
+            });
+        }
+
+        function initDashboard() {
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            const data = getFilteredData();
+            totalCountEl.textContent = data.length;
+
+            updateCharts(data);
+            updateStatsCards(data);
+        }
+
+        function updateStatsCards(data) {
+            let simCount = 0;
+            let talvezCount = 0;
+            let naoCount = 0;
+
+            data.forEach(item => {
+                if (item.foco.includes("Sim")) simCount++;
+                else if (item.foco.includes("Talvez")) talvezCount++;
+                else if (item.foco.includes("Não")) naoCount++;
+            });
+
+            const total = data.length || 1;
+            document.getElementById('foco-sim').textContent = `${simCount} (${Math.round((simCount/total)*100)}%)`;
+            document.getElementById('foco-talvez').textContent = `${talvezCount} (${Math.round((talvezCount/total)*100)}%)`;
+            document.getElementById('foco-nao').textContent = `${naoCount} (${Math.round((naoCount/total)*100)}%)`;
+
+            // Média de ajuda
+            const sumHelp = data.reduce((acc, curr) => acc + curr.ajuda, 0);
+            const avgHelp = data.length ? (sumHelp / data.length).toFixed(2) : "0.00";
+            document.getElementById('help-avg-val').textContent = `${avgHelp} / 5.0`;
+        }
+
+        function updateCharts(data) {
+            // 1. DADOS GRÁFICO PREFERÊNCIA (ROSCA)
+            let gamifiedCount = 0;
+            let tradCount = 0;
+
+            data.forEach(item => {
+                if (item.pref.includes("gamificada")) gamifiedCount++;
+                else tradCount++;
+            });
+
+            document.getElementById('pref-gamified-val').textContent = `${gamifiedCount} (${Math.round((gamifiedCount/(data.length||1))*100)}%)`;
+            document.getElementById('pref-trad-val').textContent = `${tradCount} (${Math.round((tradCount/(data.length||1))*100)}%)`;
+
+            const ctxPref = document.getElementById('chartPreferences').getContext('2d');
+            if (chartPrefInstance) chartPrefInstance.destroy();
+
+            chartPrefInstance = new Chart(ctxPref, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Estudo Gamificado', 'Estudo Tradicional'],
+                    datasets: [{
+                        data: [gamifiedCount, tradCount],
+                        backgroundColor: ['#4F46E5', '#E2E8F0'],
+                        borderColor: ['#ffffff', '#ffffff'],
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // 2. DADOS GRÁFICO ESCALA DE AJUDA (BARRAS)
+            const scaleCounts = [0, 0, 0, 0, 0];
+            data.forEach(item => {
+                if (item.ajuda >= 1 && item.ajuda <= 5) {
+                    scaleCounts[item.ajuda - 1]++;
+                }
+            });
+
+            const ctxHelp = document.getElementById('chartHelpScale').getContext('2d');
+            if (chartHelpInstance) chartHelpInstance.destroy();
+
+            chartHelpInstance = new Chart(ctxHelp, {
+                type: 'bar',
+                data: {
+                    labels: ['1 (Pouco)', '2', '3', '4', '5 (Muito)'],
+                    datasets: [{
+                        label: 'Número de Estudantes',
+                        data: scaleCounts,
+                        backgroundColor: '#06B6D4',
+                        borderRadius: 8,
+                        hoverBackgroundColor: '#0891b2'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
